@@ -1,0 +1,9 @@
+boards:
+  - name: crosses_v2_left
+    vendor: gggw
+    socs:
+      - name: nrf52840
+  - name: crosses_v2_right
+    vendor: gggw
+    socs:
+      - name: nrf52840

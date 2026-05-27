@@ -1,0 +1,16 @@
+file_format: "1"
+id: crosses_v2
+name: Crosses V2
+type: board
+arch: arm
+url: https://ergokeyboards.com
+features:
+  - keys
+  - studio
+  - pointer
+outputs:
+  - usb
+  - ble
+siblings:
+  - crosses_v2_left
+  - crosses_v2_right

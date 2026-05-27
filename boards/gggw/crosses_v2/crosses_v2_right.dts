@@ -1,0 +1,76 @@
+/*
+ * Copyright (c) 2026 Vincent Franco
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "crosses_v2.dts"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <input/processors.dtsi>
+#include <input/processors/xyz.dtsi>
+#include <input/processors/report_rate_limit.dtsi>
+#include <behaviors/rate_limit.dtsi>
+
+/ {
+  chosen {
+    model = "crosses_v2_right";
+    compatible = "gggw,crosses_v2_right";
+  };
+
+	behaviors {
+		rrl {
+      #binding-cells = <1>;
+      values-ms = <8 6 4 2>;
+		};
+  };
+};
+
+// Offset right side
+&matrix_transform0 {
+  col-offset = <6>;
+};
+
+&kscan0 {
+  compatible = "zmk,kscan-gpio-matrix";
+
+  row-gpios
+    = <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+    , <&gpio1 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+    , <&gpio0 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+    , <&gpio1 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+    , <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+    ;
+
+  col-gpios
+    = <&gpio1 10 GPIO_ACTIVE_HIGH>
+    , <&gpio0 28 GPIO_ACTIVE_HIGH>
+    , <&gpio1 0 GPIO_ACTIVE_HIGH>
+    , <&gpio0 13 GPIO_ACTIVE_HIGH>
+    , <&gpio0 22 GPIO_ACTIVE_HIGH>
+    , <&gpio0 24 GPIO_ACTIVE_HIGH>
+    ;
+};
+
+&trackball_peripheral_listener {
+    status = "okay";
+    input-processors = <&zip_zxy>;
+};
+
+&spi0 {
+    cs-gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
+
+    trackball_central: trackball_central@0 {
+        status = "okay";
+        compatible = "pixart,paw3222";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        irq-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
+        res-cpi = <700>;
+    };
+};
+
+// Overrides for the input listener node
+&trackball_central_listener {
+    status = "okay";
+    device = <&trackball_central>;
+    input-processors = <&zip_ble_report_rate_limit>;
+};

@@ -1,0 +1,7 @@
+/ {
+    layouts_gggw_crosses_position_map: layouts_gggw_crosses_position_map {
+        compatible = "zmk,physical-layout-position-map";
+
+        complete;
+    };
+};

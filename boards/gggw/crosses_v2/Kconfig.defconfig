@@ -1,0 +1,48 @@
+# Copyright (c) 2026 Vincent Franco
+# SPDX-License-Identifier: MIT
+
+if BOARD_CROSSES_V2_LEFT
+
+config BOARD
+  default "crosses v2 left"
+
+endif # BOARD_CROSSES_V2_LEFT
+
+if BOARD_CROSSES_V2_RIGHT
+
+config ZMK_SPLIT_ROLE_CENTRAL
+  default y
+
+config ZMK_KEYBOARD_NAME
+  default "Crosses V2"
+
+config BOARD
+  default "crosses v2 right"
+
+endif # BOARD_CROSSES_V2_RIGHT
+
+if BOARD_CROSSES_V2_LEFT || BOARD_CROSSES_V2_RIGHT
+
+config ZMK_SPLIT
+  default y
+
+config BT_CTLR
+  default BT
+
+config PINCTRL
+  default y
+
+if USB
+
+config USB_NRFX
+  default y
+
+config USB_DEVICE_STACK
+  default y
+
+endif # USB
+
+config SPI
+  default y
+
+endif # BOARD_CROSSES_V2_LEFT ||  BOARD_CROSSES_V2_RIGHT

@@ -1,0 +1,6 @@
+/*
+ * Copyright (c) 2026 Vincent Franco
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "crosses_v2.keymap"

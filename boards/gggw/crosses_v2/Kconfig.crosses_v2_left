@@ -1,0 +1,8 @@
+# Copyright (c) 2026 Vincent Franco
+# SPDX-License-Identifier: MIT
+
+config BOARD_CROSSES_V2_LEFT
+  select SOC_NRF52840_QIAA
+  imply RETAINED_MEM
+  imply RETENTION
+  imply RETINTION_BOOT_MODE
