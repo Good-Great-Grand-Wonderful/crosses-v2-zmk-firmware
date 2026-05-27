@@ -4,8 +4,6 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: efogdev
-      url-base: https://github.com/efogdev
     - name: badjeff
       url-base: https://github.com/badjeff
     - name: sekigon-gonnoc
@@ -14,8 +12,8 @@ manifest:
     - name: zmk
       remote: zmkfirmware
       import: app/west.yml
-    - name: zmk-report-rate-limit
-      remote: efogdev
+    - name: zmk-input-processor-report-rate-limit
+      remote: badjeff
       revision: main
     - name: zmk-input-processor-xyz
       remote: badjeff

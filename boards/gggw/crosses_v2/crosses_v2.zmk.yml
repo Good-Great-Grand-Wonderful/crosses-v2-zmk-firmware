@@ -1,5 +1,5 @@
 file_format: "1"
-id: crosses_v2
+id: crosses_v2//zmk
 name: Crosses V2
 type: board
 arch: arm

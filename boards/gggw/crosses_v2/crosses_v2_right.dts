@@ -6,26 +6,24 @@
 #include "crosses_v2.dts"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <input/processors.dtsi>
-#include <input/processors/xyz.dtsi>
-#include <input/processors/report_rate_limit.dtsi>
-#include <behaviors/rate_limit.dtsi>
 
 / {
   chosen {
     model = "crosses_v2_right";
     compatible = "gggw,crosses_v2_right";
   };
-
-	behaviors {
-		rrl {
-      #binding-cells = <1>;
-      values-ms = <8 6 4 2>;
-		};
-  };
 };
 
 // Offset right side
-&matrix_transform0 {
+&default_transform {
+  col-offset = <6>;
+};
+
+&forty_two_transform {
+  col-offset = <6>;
+};
+
+&thirty_six_transform {
   col-offset = <6>;
 };
 
@@ -52,7 +50,6 @@
 
 &trackball_peripheral_listener {
     status = "okay";
-    input-processors = <&zip_zxy>;
 };
 
 &spi0 {
@@ -72,5 +69,7 @@
 &trackball_central_listener {
     status = "okay";
     device = <&trackball_central>;
-    input-processors = <&zip_ble_report_rate_limit>;
+    input-processors 
+      = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>
+      ;
 };

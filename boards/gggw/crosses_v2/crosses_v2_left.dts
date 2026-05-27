@@ -6,21 +6,12 @@
 #include "crosses_v2.dts"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <input/processors.dtsi>
-#include <input/processors/xyz.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
-#include <behaviors/rate_limit.dtsi>
 
 / {
   chosen {
     model = "crosses_v2_left";
     compatible = "gggw,crosses_v2_left";
-  };
-
-	behaviors {
-		rrl {
-      #binding-cells = <1>;
-      values-ms = <8 6 4 2>;
-		};
   };
 };
 
@@ -64,6 +55,5 @@
     input-processors
       = <&zip_xy_to_scroll_mapper>
       , <&zip_scroll_scaler 1 4>
-      , <&zip_xyz>
-      , <&zip_ble_report_rate_limit>;
+      , <&zip_report_rate_limit 16>;
 };

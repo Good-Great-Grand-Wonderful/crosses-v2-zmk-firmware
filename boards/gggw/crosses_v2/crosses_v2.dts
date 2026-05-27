@@ -28,9 +28,6 @@
 &gggw_crosses_36_layout {
   transform = <&thirty_six_transform>;
 };
-&physical_layout0 {
-  transform = <&matrix_transform0>;
-};
 
 / {
     chosen {
@@ -91,12 +88,6 @@
       wakeup-source;
     };
 
-    behaviors {
-      rrl {
-        #binding-cells = <1>;
-        values-ms = <8 6 4 2>;
-      };
-    };
 
     //right hand trackball
     split_inputs {
