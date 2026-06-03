@@ -12,7 +12,6 @@
     behaviors {
         hml: hml {
             compatible = "zmk,behavior-hold-tap";
-            label = "HML";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
@@ -26,7 +25,6 @@
 
         hmr: hmr {
             compatible = "zmk,behavior-hold-tap";
-            label = "HMR";
             bindings = <&kp>, <&kp>;
 
             #binding-cells = <2>;
@@ -103,56 +101,48 @@
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp MINUS &kp GREATER_THAN>;
-            label = "SKINNY_ARROW";
         };
 
         fat_arrow: fat_arrow {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp EQUAL &kp GREATER_THAN>;
-            label = "FAT_ARROW";
         };
 
         pipe: pipe {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp PIPE &kp GREATER_THAN>;
-            label = "PIPE";
         };
 
         save_vim: save_vim {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp ESCAPE &kp COLON &kp W &kp ENTER>;
-            label = "SAVE_VIM";
         };
 
         bt_profile0: bt_profile0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&out OUT_BLE &bt BT_SEL 0>;
-            label = "BT_PROFILE0";
         };
 
         bt_profile1: bt_profile1 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&out OUT_BLE &bt BT_SEL 1>;
-            label = "BT_PROFILE1";
         };
 
         bt_profile2: bt_profile3 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&out OUT_BLE &bt BT_SEL 2>;
-            label = "BT_PROFILE3";
         };
 
         bt_profile3: bt_profile4 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&out OUT_BLE &bt BT_SEL 3>;
-            label = "BT_PROFILE4";
         };
     };
 
