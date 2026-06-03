@@ -7,7 +7,7 @@ manifest:
     - name: badjeff
       url-base: https://github.com/badjeff
     - name: sekigon-gonnoc
-      url-base: https://github.com/sekigon-gonnoc
+      url-base: https://github.com/black-trooper
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -19,7 +19,7 @@ manifest:
       remote: badjeff
       revision: main
     - name: zmk-driver-paw3222
-      remote: sekigon-gonnoc
+      remote: black-trooper
       revision: main
   self:
     path: config
