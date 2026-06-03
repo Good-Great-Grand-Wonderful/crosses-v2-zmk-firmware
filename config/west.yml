@@ -6,7 +6,7 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: badjeff
       url-base: https://github.com/badjeff
-    - name: sekigon-gonnoc
+    - name: black-trooper
       url-base: https://github.com/black-trooper
   projects:
     - name: zmk
