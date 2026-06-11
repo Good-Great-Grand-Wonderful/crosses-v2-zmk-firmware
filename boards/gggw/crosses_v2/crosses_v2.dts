@@ -140,9 +140,12 @@
     };
 
     behaviors {
-      // Node name <= 15 chars (split relay limit). EVENT_SOURCE locality:
-      // bind on the left half, where the peripheral split pipelines run.
-      pipe_switch: pipe_switch {
+      // Node names <= 8 chars: the BLE split relay payload truncates
+      // behavior names at 9 bytes (ZMK_SPLIT_RUN_BEHAVIOR_DEV_LEN), and the
+      // peripheral looks behaviors up by that name. Labels are not relayed
+      // and can stay long. EVENT_SOURCE locality: bind on the left half,
+      // where the peripheral split pipelines run.
+      pipe_switch: pswitch {
         compatible = "zmk,behavior-pipeline-switch";
         #binding-cells = <0>;
         processor = <&zip_periph_ball>;
@@ -153,10 +156,9 @@
       // physically pressed on, targeting that half's local sensor. Both
       // nodes must be enabled on both halves so the central can resolve
       // locality and the peripheral can resolve the relayed name. Node
-      // names must stay <= 15 chars to fit the split transport's
-      // behavior_dev field. sensor_device is set per side in
+      // names <= 8 chars (see above). sensor_device is set per side in
       // crosses_v2_left.dts / crosses_v2_right.dts.
-      dpi_cycle_left: dpi_cycle_l {
+      dpi_cycle_left: dpi_cy_l {
         compatible = "zmk,behavior-paw32xx-res-cycle";
         #binding-cells = <1>;
         values = <608 798 988 1216 1596>;
@@ -164,7 +166,7 @@
         persistent;
       };
 
-      dpi_cycle_right: dpi_cycle_r {
+      dpi_cycle_right: dpi_cy_r {
         compatible = "zmk,behavior-paw32xx-res-cycle";
         #binding-cells = <1>;
         values = <608 798 988 1216 1596>;
