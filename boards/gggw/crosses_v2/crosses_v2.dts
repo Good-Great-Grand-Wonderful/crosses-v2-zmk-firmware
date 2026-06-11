@@ -10,6 +10,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/zmk/input_transform.h>
 #include <input/processors.dtsi>
+#include <input/processors/report_rate_limit.dtsi>
 
 #include "crosses_v2_pinctrl.dtsi"
 
@@ -113,7 +114,41 @@
       status = "disabled";
     };
 
+    // Runtime-switchable pipeline for the peripheral (left) trackball:
+    // index 0 = scroll (the current default), index 1 = mouse. Applied on
+    // the left half via &trackball_peripheral_split. Defined here (not in
+    // the left .dts) because the shared keymap's &pipe_switch reference
+    // must resolve on both halves; every sub-processor phandle exists on
+    // both.
+    zip_periph_ball: zip_periph_ball {
+      compatible = "zmk,input-processor-pipeline-switch";
+      #input-processor-cells = <0>;
+      persistent;
+
+      scroll {
+        input-processors
+          = <&zip_xy_to_scroll_mapper>
+          , <&zip_scroll_scaler 1 4>
+          , <&zip_report_rate_limit 16>;
+      };
+
+      mouse {
+        input-processors
+          = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>
+          , <&zip_report_rate_limit 16>;
+      };
+    };
+
     behaviors {
+      // Node name <= 15 chars (split relay limit). EVENT_SOURCE locality:
+      // bind on the left half, where the peripheral split pipelines run.
+      pipe_switch: pipe_switch {
+        compatible = "zmk,behavior-pipeline-switch";
+        #binding-cells = <0>;
+        processor = <&zip_periph_ball>;
+        display-name = "Ball Mode";
+      };
+
       // EVENT_SOURCE locality: each behavior runs on the half its key is
       // physically pressed on, targeting that half's local sensor. Both
       // nodes must be enabled on both halves so the central can resolve

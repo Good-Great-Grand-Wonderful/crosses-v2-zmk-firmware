@@ -26,5 +26,8 @@ manifest:
     - name: zmk-behavior-paw32xx-res-cycle
       remote: gggw
       revision: main
+    - name: zmk-input-processor-pipeline-switch
+      remote: gggw
+      revision: main
   self:
     path: config

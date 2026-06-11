@@ -6,7 +6,6 @@
 #include "crosses_v2.dts"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <input/processors.dtsi>
-#include <input/processors/report_rate_limit.dtsi>
 
 / {
   chosen {
@@ -63,8 +62,5 @@
 // Overrides for the input-split child node
 &trackball_peripheral_split {
     device = <&trackball_peripheral>;
-    input-processors
-      = <&zip_xy_to_scroll_mapper>
-      , <&zip_scroll_scaler 1 4>
-      , <&zip_report_rate_limit 16>;
+    input-processors = <&zip_periph_ball>;
 };
