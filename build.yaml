@@ -1,8 +1,6 @@
 ---
 include:
   - board: crosses_v2_left
-    snippet: zmk-usb-logging
   - board: crosses_v2_right
-    # TODO: restore `snippet: studio-rpc-usb-uart` after pipeline-switch debugging
-    snippet: zmk-usb-logging
+    snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
