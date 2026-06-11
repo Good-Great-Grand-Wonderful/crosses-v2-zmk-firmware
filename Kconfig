@@ -1,7 +1,0 @@
-DT_COMPAT_ZMK_BEHAVIOR_PAW32XX_RES_CYCLE := zmk,behavior-paw32xx-res-cycle
-
-config ZMK_BEHAVIOR_PAW32XX_RES_CYCLE
-	bool
-	default $(dt_compat_enabled,$(DT_COMPAT_ZMK_BEHAVIOR_PAW32XX_RES_CYCLE))
-	depends on PAW3222
-	imply SETTINGS

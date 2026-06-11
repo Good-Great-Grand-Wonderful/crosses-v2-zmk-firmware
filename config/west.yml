@@ -8,6 +8,8 @@ manifest:
       url-base: https://github.com/badjeff
     - name: black-trooper
       url-base: https://github.com/black-trooper
+    - name: gggw
+      url-base: https://github.com/Good-Great-Grand-Wonderful
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -20,6 +22,9 @@ manifest:
       revision: main
     - name: zmk-driver-paw3222
       remote: black-trooper
+      revision: main
+    - name: zmk-behavior-paw32xx-res-cycle
+      remote: gggw
       revision: main
   self:
     path: config
