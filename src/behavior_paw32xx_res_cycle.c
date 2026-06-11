@@ -185,9 +185,10 @@ static const struct behavior_driver_api behavior_paw32xx_res_cycle_driver_api = 
         .persistent = DT_PROP(DT_DRV_INST(n), persistent),                                         \
         .settings_key = SETTINGS_PREFIX "/" #n,                                                    \
     };                                                                                             \
+    /* Must init after the sensor_device dependency: the PAW32xx driver       \
+     * inits at POST_KERNEL/CONFIG_INPUT_INIT_PRIORITY (default 90). */       \
     BEHAVIOR_DT_INST_DEFINE(n, behavior_paw32xx_res_cycle_init, NULL, &data##n, &config##n,        \
-                            POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,                      \
-                            &behavior_paw32xx_res_cycle_driver_api);
+                            POST_KERNEL, 95, &behavior_paw32xx_res_cycle_driver_api);
 
 DT_INST_FOREACH_STATUS_OKAY(RES_CYCLE_INST)
 
