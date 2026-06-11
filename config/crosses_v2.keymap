@@ -162,7 +162,7 @@
         mouse {
             display-name = "Mouse";
             bindings = <
-&trans          &trans     &trans        &trans     &trans  &trans  &trans  &trans  &trans  &trans
+&dpi_cycle_left 1  &trans  &trans        &trans     &trans  &trans  &trans  &trans  &trans  &dpi_cycle_right 1
 &kp LEFT_SHIFT  &mkp RCLK  &mkp MCLK     &mkp LCLK  &trans  &trans  &trans  &trans  &trans  &trans
 &trans          &trans     &trans        &trans     &trans  &trans  &trans  &trans  &trans  &trans
                            &kp LEFT_ALT  &kp LCTRL  &tog 1  &trans  &trans  &trans

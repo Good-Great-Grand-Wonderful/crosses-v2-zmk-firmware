@@ -112,6 +112,31 @@
       compatible = "zmk,input-listener";
       status = "disabled";
     };
+
+    behaviors {
+      // EVENT_SOURCE locality: each behavior runs on the half its key is
+      // physically pressed on, targeting that half's local sensor. Both
+      // nodes must be enabled on both halves so the central can resolve
+      // locality and the peripheral can resolve the relayed name. Node
+      // names must stay <= 15 chars to fit the split transport's
+      // behavior_dev field. sensor_device is set per side in
+      // crosses_v2_left.dts / crosses_v2_right.dts.
+      dpi_cycle_left: dpi_cycle_l {
+        compatible = "zmk,behavior-paw32xx-res-cycle";
+        #binding-cells = <1>;
+        values = <608 798 988 1216 1596>;
+        display-name = "DPI Left";
+        persistent;
+      };
+
+      dpi_cycle_right: dpi_cycle_r {
+        compatible = "zmk,behavior-paw32xx-res-cycle";
+        #binding-cells = <1>;
+        values = <608 798 988 1216 1596>;
+        display-name = "DPI Right";
+        persistent;
+      };
+    };
 };
 
 &pinctrl {

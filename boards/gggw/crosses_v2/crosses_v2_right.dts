@@ -66,6 +66,16 @@
     };
 };
 
+&dpi_cycle_right {
+    sensor_device = <&trackball_central>;
+};
+
+// Never invoked on this half (EVENT_SOURCE locality runs it on the left
+// half); points at the local sensor only to satisfy the required phandle.
+&dpi_cycle_left {
+    sensor_device = <&trackball_central>;
+};
+
 // Overrides for the input listener node
 &trackball_central_listener {
     status = "okay";

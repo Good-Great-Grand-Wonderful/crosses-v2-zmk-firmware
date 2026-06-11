@@ -1,0 +1,5 @@
+if(CONFIG_ZMK_BEHAVIOR_PAW32XX_RES_CYCLE)
+  zephyr_library()
+  zephyr_library_sources(src/behavior_paw32xx_res_cycle.c)
+  zephyr_include_directories(${APPLICATION_SOURCE_DIR}/include)
+endif()
