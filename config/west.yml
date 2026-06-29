@@ -6,8 +6,10 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: badjeff
       url-base: https://github.com/badjeff
-    - name: sekigon-gonnoc
-      url-base: https://github.com/sekigon-gonnoc
+    - name: black-trooper
+      url-base: https://github.com/black-trooper
+    - name: gggw
+      url-base: https://github.com/Good-Great-Grand-Wonderful
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -19,7 +21,13 @@ manifest:
       remote: badjeff
       revision: main
     - name: zmk-driver-paw3222
-      remote: sekigon-gonnoc
+      remote: black-trooper
+      revision: main
+    - name: zmk-behavior-paw32xx-res-cycle
+      remote: gggw
+      revision: main
+    - name: zmk-input-processor-pipeline-switch
+      remote: gggw
       revision: main
   self:
     path: config

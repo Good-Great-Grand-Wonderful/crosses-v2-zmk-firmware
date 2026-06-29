@@ -62,14 +62,25 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
         res-cpi = <700>;
+        force-awake;
     };
+};
+
+&dpi_cycle_right {
+    sensor_device = <&trackball_central>;
+};
+
+// Never invoked on this half (EVENT_SOURCE locality runs it on the left
+// half); points at the local sensor only to satisfy the required phandle.
+&dpi_cycle_left {
+    sensor_device = <&trackball_central>;
 };
 
 // Overrides for the input listener node
 &trackball_central_listener {
     status = "okay";
     device = <&trackball_central>;
-    input-processors 
+    input-processors
       = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>
       ;
 };

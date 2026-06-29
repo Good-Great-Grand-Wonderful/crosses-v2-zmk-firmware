@@ -6,7 +6,6 @@
 #include "crosses_v2.dts"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <input/processors.dtsi>
-#include <input/processors/report_rate_limit.dtsi>
 
 / {
   chosen {
@@ -46,14 +45,22 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
         res-cpi = <700>;
+        force-awake;
     };
+};
+
+&dpi_cycle_left {
+    sensor_device = <&trackball_peripheral>;
+};
+
+// Never invoked on this half (EVENT_SOURCE locality runs it on the right
+// half); points at the local sensor only to satisfy the required phandle.
+&dpi_cycle_right {
+    sensor_device = <&trackball_peripheral>;
 };
 
 // Overrides for the input-split child node
 &trackball_peripheral_split {
     device = <&trackball_peripheral>;
-    input-processors
-      = <&zip_xy_to_scroll_mapper>
-      , <&zip_scroll_scaler 1 4>
-      , <&zip_report_rate_limit 16>;
+    input-processors = <&zip_periph_ball>;
 };
