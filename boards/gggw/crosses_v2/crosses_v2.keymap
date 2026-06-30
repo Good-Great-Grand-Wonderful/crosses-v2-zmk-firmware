@@ -45,13 +45,8 @@
 
         mouse_layer {
             display-name = "Mouse";
-            // SPIKE (revert before merge): two left-half keys that set the
-            // peripheral (left) ball's pipeline to an absolute index and
-            // persist. Pressing these on the LEFT half exercises the split
-            // relay: central -> peripheral, carrying param1 (index) + param2
-            // (persist). pipe1=mouse (idx 1), pipe0=scroll (idx 0).
             bindings = <
-                &pipe_switch 1 1  &pipe_switch 0 1  &trans     &trans     &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                &trans  &trans  &trans     &trans     &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans     &trans     &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &mkp RCLK  &mkp MCLK  &mkp LCLK  &trans  &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans     &trans     &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans

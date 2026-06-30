@@ -2,5 +2,8 @@
 include:
   - board: crosses_v2_left
   - board: crosses_v2_right
-    snippet: studio-rpc-usb-uart
-    cmake-args: -DCONFIG_ZMK_STUDIO=y
+    # No studio-rpc-usb-uart snippet: Studio runs over BLE, not USB, so the config
+    # web app's CDC-ACM can be the sole USB serial port (two CDC-ACM ports starve
+    # ZMK's legacy USB stack). KEEP_ALL (normally from the snippet) is preserved so
+    # Studio can still offer all behaviors when editing over BLE. See docs/adr/0001.
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DDTS_EXTRA_CPPFLAGS="-DZMK_BEHAVIORS_KEEP_ALL"
