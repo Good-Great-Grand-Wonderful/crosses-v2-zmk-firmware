@@ -143,9 +143,13 @@
       // peripheral looks behaviors up by that name. Labels are not relayed
       // and can stay long. EVENT_SOURCE locality: bind on the left half,
       // where the peripheral split pipelines run.
+      // param1 = pipeline index (0 = scroll, 1 = mouse), param2 = persist
+      // (0 = live preview, 1 = save to flash). Drives the left/peripheral
+      // ball's zip_periph_ball; the central relays to the peripheral by
+      // invoking this with event.source = the peripheral index.
       pipe_switch: pswitch {
         compatible = "zmk,behavior-pipeline-switch";
-        #binding-cells = <0>;
+        #binding-cells = <2>;
         processor = <&zip_periph_ball>;
         display-name = "Ball Mode";
       };
