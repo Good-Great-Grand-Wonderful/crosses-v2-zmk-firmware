@@ -25,12 +25,12 @@ manifest:
       revision: main
     - name: zmk-behavior-paw32xx-res-cycle
       remote: gggw
-      revision: vinnie/gatt
+      revision: main
     - name: zmk-input-processor-pipeline-switch
       remote: gggw
-      revision: vinnie/gatt
+      revision: main
     - name: zmk-trackball-config
       remote: gggw
-      revision: vinnie/gatt
+      revision: main
   self:
     path: config
