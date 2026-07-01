@@ -61,4 +61,14 @@ CONFIG_BT_PERIPHERAL_PREF_MAX_INT=6
 CONFIG_BT_TPS=y
 CONFIG_BT_GATT_ENFORCE_SUBSCRIPTION=y
 
+# Trackball config link: the USB CDC-ACM serial port for the config web app
+# (Web Serial). It is the ONLY USB serial port - ZMK Studio runs over BLE, not
+# USB, because two CDC-ACM ports starve ZMK's legacy USB stack (each grabs a
+# READ + a ZLP-WRITE usb_transfer slot at enumeration). See docs/adr/0001.
+CONFIG_USB_DEVICE_STACK=y
+CONFIG_USB_CDC_ACM=y
+CONFIG_SERIAL=y
+CONFIG_UART_INTERRUPT_DRIVEN=y
+CONFIG_UART_LINE_CTRL=y
+
 CONFIG_ZMK_SLEEP=y

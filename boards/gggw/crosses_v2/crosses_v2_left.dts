@@ -59,6 +59,16 @@
     sensor_device = <&trackball_peripheral>;
 };
 
+// Left CPI set targets the local peripheral sensor (relayed here from the
+// central). cpi_set_r is a placeholder on this half (never invoked here).
+&cpi_set_l {
+    sensor_device = <&trackball_peripheral>;
+};
+
+&cpi_set_r {
+    sensor_device = <&trackball_peripheral>;
+};
+
 // Overrides for the input-split child node
 &trackball_peripheral_split {
     device = <&trackball_peripheral>;

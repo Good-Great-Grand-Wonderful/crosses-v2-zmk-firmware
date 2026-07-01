@@ -114,26 +114,92 @@
       status = "disabled";
     };
 
-    // Runtime-switchable pipeline for the peripheral (left) trackball:
-    // index 0 = scroll (the current default), index 1 = mouse. Applied on
-    // the left half via &trackball_peripheral_split. Defined here (not in
-    // the left .dts) because the shared keymap's &pipe_switch reference
-    // must resolve on both halves; every sub-processor phandle exists on
-    // both.
+    // ---- Trackball modes (selectable via the config app / pipe_switch) ----
+    //
+    // Both balls expose the same 3 modes in the same order, so the app shows
+    // an identical menu and the "invert scroll" checkbox just picks between
+    // the two Scroll pipelines:
+    //   index 0 = Cursor      (pointer movement)
+    //   index 1 = Scroll Up   (one wheel direction)
+    //   index 2 = Scroll Down (the opposite wheel direction)
+    //
+    // Per-ball ORIENTATION differs because the sensors are mounted mirrored:
+    // the left (peripheral) sensor needs no axis flip, the right (central)
+    // one needs X+Y inverted (this matches the cursor behavior the board
+    // shipped with). SCROLL DIRECTION is then flipped between Up/Down by an
+    // extra Y invert. If Up/Down feel backwards on the bench, just swap the
+    // two `label`s; if a whole ball's cursor/scroll axis is wrong, adjust its
+    // INPUT_TRANSFORM_* flags. Feel knobs: zip_scroll_scaler (mult/div) and
+    // zip_report_rate_limit (ms).
+    //
+    // Defined here (not in the per-side .dts) because the shared keymap's
+    // &pipe_switch reference must resolve on both halves and every
+    // sub-processor phandle exists on both.
+
+    // Left (peripheral) ball. Applied on the left half via
+    // &trackball_peripheral_split. No orientation flip (matches prior cursor).
     zip_periph_ball: zip_periph_ball {
       compatible = "zmk,input-processor-pipeline-switch";
       #input-processor-cells = <0>;
       persistent;
+      default-index = <0>;
 
-      scroll {
+      cursor {
+        label = "Cursor";
+        input-processors = <&zip_report_rate_limit 4>;
+      };
+
+      scroll_up {
+        label = "Scroll Up";
         input-processors
           = <&zip_xy_to_scroll_mapper>
-          , <&zip_scroll_scaler 1 4>
+          , <&zip_scroll_scaler 1 8>
           , <&zip_report_rate_limit 16>;
       };
 
-      mouse {
-        input-processors = <&zip_report_rate_limit 4>;
+      scroll_down {
+        label = "Scroll Down";
+        input-processors
+          = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>
+          , <&zip_xy_to_scroll_mapper>
+          , <&zip_scroll_scaler 1 8>
+          , <&zip_report_rate_limit 16>;
+      };
+    };
+
+    // Right (central) ball. Runs on the central via trackball_central_listener.
+    // Orientation = X+Y invert in every mode (matches prior cursor behavior).
+    // Scroll Down reuses orientation with Y un-inverted (net X invert), which
+    // is the opposite wheel direction from Scroll Up.
+    zip_central_ball: zip_central_ball {
+      compatible = "zmk,input-processor-pipeline-switch";
+      #input-processor-cells = <0>;
+      persistent;
+      default-index = <0>;
+
+      cursor {
+        label = "Cursor";
+        input-processors
+          = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>
+          , <&zip_report_rate_limit 4>;
+      };
+
+      scroll_up {
+        label = "Scroll Up";
+        input-processors
+          = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>
+          , <&zip_xy_to_scroll_mapper>
+          , <&zip_scroll_scaler 1 8>
+          , <&zip_report_rate_limit 16>;
+      };
+
+      scroll_down {
+        label = "Scroll Down";
+        input-processors
+          = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT)>
+          , <&zip_xy_to_scroll_mapper>
+          , <&zip_scroll_scaler 1 8>
+          , <&zip_report_rate_limit 16>;
       };
     };
 
@@ -143,11 +209,24 @@
       // peripheral looks behaviors up by that name. Labels are not relayed
       // and can stay long. EVENT_SOURCE locality: bind on the left half,
       // where the peripheral split pipelines run.
+      // param1 = pipeline index (0 = Cursor, 1 = Scroll Up, 2 = Scroll Down),
+      // param2 = persist (0 = live preview, 1 = save to flash). Drives the
+      // left/peripheral ball's zip_periph_ball; the central relays to the
+      // peripheral by invoking this with event.source = the peripheral index.
       pipe_switch: pswitch {
         compatible = "zmk,behavior-pipeline-switch";
-        #binding-cells = <0>;
+        #binding-cells = <2>;
         processor = <&zip_periph_ball>;
-        display-name = "Ball Mode";
+        display-name = "Ball Mode L";
+      };
+
+      // Right (central) ball select behavior. Same 2-cell contract; the
+      // central runs it locally (no relay). Node name <= 8 chars (pswitchr).
+      pipe_switch_r: pswitchr {
+        compatible = "zmk,behavior-pipeline-switch";
+        #binding-cells = <2>;
+        processor = <&zip_central_ball>;
+        display-name = "Ball Mode R";
       };
 
       // EVENT_SOURCE locality: each behavior runs on the half its key is
@@ -169,6 +248,25 @@
         #binding-cells = <1>;
         values = <608 798 988 1216 1596>;
         display-name = "DPI Right";
+        persistent;
+      };
+
+      // Absolute CPI set behaviors driven by the config app (param1 = CPI,
+      // param2 = persist). EVENT_SOURCE so the central relays the left one to
+      // the peripheral. Node names <= 8 chars (cpisetl/cpisetr). default-cpi
+      // matches the sensors' res-cpi so the app shows the true start value.
+      // sensor_device is set per side in the left/right .dts.
+      cpi_set_l: cpisetl {
+        compatible = "zmk,behavior-paw32xx-res-set";
+        #binding-cells = <2>;
+        default-cpi = <700>;
+        persistent;
+      };
+
+      cpi_set_r: cpisetr {
+        compatible = "zmk,behavior-paw32xx-res-set";
+        #binding-cells = <2>;
+        default-cpi = <700>;
         persistent;
       };
     };
