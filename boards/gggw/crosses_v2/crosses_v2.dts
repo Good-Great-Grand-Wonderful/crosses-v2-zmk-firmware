@@ -261,6 +261,11 @@
         #binding-cells = <2>;
         default-cpi = <700>;
         persistent;
+        // Delay the boot-time re-apply of the saved CPI to the sensor until
+        // after early-boot churn (USB enumerate / BLE connect) settles; at
+        // load-delay=0 the applied value was not sticking after reset. This is
+        // an Apply (SPI register write), not a Save - no extra flash wear.
+        load_delay = <1000>;
       };
 
       cpi_set_r: cpisetr {
@@ -268,6 +273,7 @@
         #binding-cells = <2>;
         default-cpi = <700>;
         persistent;
+        load_delay = <1000>;
       };
     };
 };
