@@ -6,6 +6,7 @@
 
 / {
     chosen { zmk,physical-layout = &gggw_crosses_54_layout; };
+    
     keymap {
         compatible = "zmk,keymap";
         default_layer {
