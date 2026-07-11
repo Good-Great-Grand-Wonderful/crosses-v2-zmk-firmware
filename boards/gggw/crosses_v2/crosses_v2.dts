@@ -153,7 +153,7 @@
 
       cursor {
         label = "Cursor";
-        input-processors = <&zip_report_rate_limit 4>;
+        input-processors = <&zip_report_rate_limit 2>;
       };
 
       scroll_up {
